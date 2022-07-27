@@ -1,0 +1,18 @@
+sible to abort an ongoing request using an AbortSignal. If a request is aborted the callback is called with an AbortError:
+
+import { readFile } from 'fs';
+
+const controller = new AbortController();
+const signal = controller.signal;
+readFile(fileInfo[0].name, { signal }, (err, buf) => {
+  // ...
+});
+// When you want to abort the request
+controller.abort();
+The fs.readFile() function buffers the entire file. To minimize memory costs, when possible prefer streaming via fs.createReadStream().
+
+Aborting an ongoing request does not abort individual operating system requests but rather the internal buffering fs.readFile performs.
+
+File descriptors#
+Any specified file descriptor has to support reading.
+If a file descriptor is specified as the path, it will not b
